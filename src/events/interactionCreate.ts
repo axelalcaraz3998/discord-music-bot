@@ -2,6 +2,7 @@ import { Events, MessageFlags, type Interaction } from "discord.js";
 
 export default {
   name: Events.InteractionCreate,
+  once: false,
   async execute(interaction: Interaction): Promise<void> {
     // Ignore interaction if it's not a slash commands
     if (!interaction.isChatInputCommand()) {

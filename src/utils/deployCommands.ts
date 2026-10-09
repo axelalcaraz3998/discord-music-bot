@@ -1,10 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { REST, Routes } from "discord.js";
+import { isLoadableFile } from "./utils.js";
 import config from "./../config/config.js";
-
-const isLoadableFile = (file: string): boolean =>
-  (file.endsWith(".ts") || file.endsWith(".js")) && !file.endsWith(".d.ts");
 
 const commands: JSON[] = [];
 
