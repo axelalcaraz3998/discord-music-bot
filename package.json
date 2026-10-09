@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./src/app.ts",
     "build": "tsc",
-    "start": "tsc && node ./dist/app.js"
+    "start": "tsc && node ./dist/app.js",
+    "deployCommands": "tsc && node ./dist/utils/deployCommands.js"
   },
   "repository": {
     "type": "git",
