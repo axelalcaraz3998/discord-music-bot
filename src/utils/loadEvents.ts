@@ -4,7 +4,7 @@ import type { Client } from "discord.js";
 import { isLoadableFile } from "./utils.js";
 
 export async function loadEvents(client: Client): Promise<void> {
-  const eventsPath: string = path.join(import.meta.dirname, "events");
+  const eventsPath: string = path.join(import.meta.dirname, "..", "events");
   const eventFiles: string[] = fs
     .readdirSync(eventsPath)
     .filter((file) => isLoadableFile(file));

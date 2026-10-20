@@ -4,7 +4,7 @@ import type { Client } from "discord.js";
 import { isLoadableFile } from "./utils.js";
 
 export async function loadCommands(client: Client): Promise<void> {
-  const foldersPath: string = path.join(import.meta.dirname, "commands");
+  const foldersPath: string = path.join(import.meta.dirname, "..", "commands");
   const commandFolders: string[] = fs.readdirSync(foldersPath);
 
   for (const folder of commandFolders) {

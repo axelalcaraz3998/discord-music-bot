@@ -2,6 +2,7 @@ import type {
   ChatInputCommandInteraction,
   Collection,
   SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
 } from "discord.js";
 
 declare module "discord.js" {
@@ -9,7 +10,7 @@ declare module "discord.js" {
     commands: Collection<
       string,
       {
-        data: SlashCommandBuilder;
+        data: SlashCommandBuilder | SlashCommandOptionsOnlyBuilder;
         execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
       }
     >;
