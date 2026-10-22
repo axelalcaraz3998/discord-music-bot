@@ -23,7 +23,7 @@ export async function loadCommands(client: Client): Promise<void> {
         client.commands.set(command.data.name, command);
       } else {
         console.error(
-          `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+          `[ERROR] The command at ${filePath} is missing a required "data" or "execute" property.`,
         );
       }
     }

@@ -5,7 +5,7 @@ import config from "./config/config.js";
 
 // Create client instance
 const client: Client = new Client({
-  intents: [GatewayIntentBits.Guilds],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates],
 });
 
 // Add commands property for easy access
