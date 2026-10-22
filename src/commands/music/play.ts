@@ -1,4 +1,5 @@
 import {
+  PermissionFlagsBits,
   SlashCommandBuilder,
   type SlashCommandOptionsOnlyBuilder,
   type ChatInputCommandInteraction,
@@ -19,13 +20,13 @@ const data: SlashCommandOptionsOnlyBuilder = new SlashCommandBuilder()
 async function execute(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {
-  // TODO: Check that bot has permissions to join voice channel
-
-  // Check that user is in a voice channel
+  // Get guild member and bot
   const guildMember = await interaction.guild?.members.fetch(
     interaction.user.id,
   );
+  const botMember = interaction.guild?.members.me;
 
+  // Check that user is in a voice channel
   const guildMemberVoiceChannel = guildMember?.voice.channel;
   if (!guildMemberVoiceChannel) {
     await interaction.reply({
@@ -36,10 +37,23 @@ async function execute(
   }
 
   // Check that bot is not playing in a different voice channel
-  const botVoiceChannel = interaction.guild?.members.me?.voice.channel;
+  const botVoiceChannel = botMember?.voice.channel;
   if (botVoiceChannel && botVoiceChannel.id !== guildMemberVoiceChannel.id) {
     await interaction.reply({
       content: "I am already playing in a different voice channel.",
+    });
+
+    return;
+  }
+
+  // Check that bot has permissions to join voice channel
+  const botPermissions = botMember
+    ? guildMemberVoiceChannel.permissionsFor(botMember)
+    : null;
+
+  if (!botPermissions?.has(PermissionFlagsBits.Connect)) {
+    await interaction.reply({
+      content: "I don't have permission to join that voice channel.",
     });
 
     return;
