@@ -20,7 +20,6 @@ const data: SlashCommandOptionsOnlyBuilder = new SlashCommandBuilder()
 async function execute(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {
-  // Get guild member and bot
   const guildMember = await interaction.guild?.members.fetch(
     interaction.user.id,
   );
@@ -59,7 +58,6 @@ async function execute(
     return;
   }
 
-  // Get user input
   const userInput: string | null = interaction.options.getString("song");
 
   // Check that userInput is not empty
