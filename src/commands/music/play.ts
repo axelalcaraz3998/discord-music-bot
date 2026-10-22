@@ -19,8 +19,9 @@ const data: SlashCommandOptionsOnlyBuilder = new SlashCommandBuilder()
 async function execute(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {
-  // Get user input
-  const userInput: string | null = interaction.options.getString("song");
+  // TODO: Check that bot is not in a different channel
+  // TODO: Check that bot has permissions to read from text channel
+  // TODO: Check that bot has permissions to join voice channel
 
   // Check that user is in a voice channel
   const guildMember = await interaction.guild?.members.fetch(
@@ -36,8 +37,18 @@ async function execute(
     return;
   }
 
+  // Get user input
+  const userInput: string | null = interaction.options.getString("song");
+
+  // Check that userInput is not empty
+  if (userInput == null || userInput.trim().length === 0) {
+    await interaction.reply("You must provide a valid URL or song name.");
+
+    return;
+  }
+
   let message;
-  if (userInput != null && isValidURL(userInput)) {
+  if (isValidURL(userInput)) {
     // TODO: Get song information and play it
     // Bot should accept links from YouTube and Spotify
     message = `Now playing: ${userInput}.`;
