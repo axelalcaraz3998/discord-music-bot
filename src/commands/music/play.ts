@@ -19,19 +19,27 @@ const data: SlashCommandOptionsOnlyBuilder = new SlashCommandBuilder()
 async function execute(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {
-  // TODO: Check that bot is not in a different channel
-  // TODO: Check that bot has permissions to read from text channel
   // TODO: Check that bot has permissions to join voice channel
 
   // Check that user is in a voice channel
   const guildMember = await interaction.guild?.members.fetch(
     interaction.user.id,
   );
-  const voiceChannel = guildMember?.voice.channel;
 
-  if (!voiceChannel) {
+  const guildMemberVoiceChannel = guildMember?.voice.channel;
+  if (!guildMemberVoiceChannel) {
     await interaction.reply({
       content: "You must be in a voice channel to play a song.",
+    });
+
+    return;
+  }
+
+  // Check that bot is not playing in a different voice channel
+  const botVoiceChannel = interaction.guild?.members.me?.voice.channel;
+  if (botVoiceChannel && botVoiceChannel.id !== guildMemberVoiceChannel.id) {
+    await interaction.reply({
+      content: "I am already playing in a different voice channel.",
     });
 
     return;
@@ -41,13 +49,13 @@ async function execute(
   const userInput: string | null = interaction.options.getString("song");
 
   // Check that userInput is not empty
-  if (userInput == null || userInput.trim().length === 0) {
+  if (userInput === null || userInput.trim().length === 0) {
     await interaction.reply("You must provide a valid URL or song name.");
 
     return;
   }
 
-  let message;
+  let message: string;
   if (isValidURL(userInput)) {
     // TODO: Get song information and play it
     // Bot should accept links from YouTube and Spotify
